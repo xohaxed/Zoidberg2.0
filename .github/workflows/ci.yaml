@@ -1,0 +1,252 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "18"
+  TERRAFORM_VERSION: "1.6.0"
+
+jobs:
+  # Python services testing
+  test-python:
+    name: Test Python Services
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [api, ai-engine, data]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles(format('services/{0}/poetry.lock', matrix.service)) }}
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        working-directory: services/${{ matrix.service }}
+        run: poetry install
+
+      - name: Run linting
+        working-directory: services/${{ matrix.service }}
+        run: |
+          poetry run ruff check .
+          poetry run black --check .
+          poetry run isort --check .
+
+      - name: Run type checking
+        working-directory: services/${{ matrix.service }}
+        run: poetry run mypy .
+
+      - name: Run tests
+        working-directory: services/${{ matrix.service }}
+        run: poetry run pytest --cov --cov-report=xml --cov-report=term
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: services/${{ matrix.service }}/coverage.xml
+          flags: ${{ matrix.service }}
+
+  # Web dashboard testing
+  test-web:
+    name: Test Web Dashboard
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: web/dashboard/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('web/dashboard/pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+        working-directory: web/dashboard
+        run: pnpm install
+
+      - name: Run linting
+        working-directory: web/dashboard
+        run: pnpm lint
+
+      - name: Run type checking
+        working-directory: web/dashboard
+        run: pnpm typecheck
+
+      - name: Run tests
+        working-directory: web/dashboard
+        run: pnpm test:coverage
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: web/dashboard/coverage/coverage-final.json
+          flags: web
+
+  # Security scanning
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Run Snyk Security Scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --all-projects --severity-threshold=high
+
+  # Infrastructure validation
+  validate-iac:
+    name: Validate Infrastructure
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - name: Terraform Format Check
+        working-directory: infra/terraform-modules
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Init
+        working-directory: infra/terraform-modules
+        run: |
+          for dir in */; do
+            cd "$dir"
+            terraform init -backend=false
+            cd ..
+          done
+
+      - name: Terraform Validate
+        working-directory: infra/terraform-modules
+        run: |
+          for dir in */; do
+            cd "$dir"
+            terraform validate
+            cd ..
+          done
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: infra/terraform-modules
+          framework: terraform
+          quiet: true
+          soft_fail: false
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          working_directory: infra/terraform-modules
+          soft_fail: false
+
+  # Build and push Docker images
+  build-images:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [test-python, test-web, security-scan]
+
+    strategy:
+      matrix:
+        service: [api, ai-engine, data]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/${{ matrix.service }}
+          tags: |
+            type=sha
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: services/${{ matrix.service }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ github.repository }}/${{ matrix.service }}:${{ github.sha }}
+          format: 'sarif'
+          output: 'trivy-image-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-image-results.sarif'

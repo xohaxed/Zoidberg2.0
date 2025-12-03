@@ -1,0 +1,8 @@
+{
+  "infrastructure_id": "test-infra-001",
+  "objectives": ["cost", "performance", "co2"],
+  "constraints": {
+    "max_budget": 10000,
+    "max_latency_p95": 200
+  }
+}

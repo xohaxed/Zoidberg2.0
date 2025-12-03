@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "cloudopt-ai-engine"
+version = "0.1.0"
+description = "CloudOpt AI Machine Learning Engine - Multi-objective optimization and ML models"
+authors = ["CloudOpt AI Team <dev@cloudopt-ai.example>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.0"
+pandas = "^2.1.0"
+scikit-learn = "^1.4.0"
+xgboost = "^2.0.0"
+lightgbm = "^4.2.0"
+pymoo = "^0.6.0"  # Multi-objective optimization (NSGA-II)
+shap = "^0.44.0"  # Explainability
+mlflow = "^2.10.0"
+fastapi = "^0.109.0"
+uvicorn = {extras = ["standard"], version = "^0.27.0"}
+pydantic = "^2.5.0"
+torch = "^2.1.0"
+optuna = "^3.5.0"  # Hyperparameter optimization
+boto3 = "^1.34.0"
+azure-storage-blob = "^12.19.0"
+google-cloud-storage = "^2.14.0"
+structlog = "^24.1.0"
+prometheus-client = "^0.19.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-asyncio = "^0.23.0"
+pytest-cov = "^4.1.0"
+black = "^24.1.0"
+ruff = "^0.1.0"
+isort = "^5.13.0"
+mypy = "^1.8.0"
+jupyter = "^1.0.0"
+matplotlib = "^3.8.0"
+seaborn = "^0.13.0"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=cloudopt_ai --cov-report=term-missing"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
