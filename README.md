@@ -189,7 +189,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
 
 ## 🆘 Support
 
-- 📧 Email: support@cloudopt-ai.example
+- 📧 Email: rayan.habes@epitech.eu
 - 💬 Slack: [Join our community](#)
 - 🐛 Issues: [GitHub Issues](https://github.com/cloudopt-ai/cloudopt-ai/issues)
 
