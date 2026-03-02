@@ -1,0 +1,70 @@
+{
+  "num_models": 7,
+  "num_samples": 1047,
+  "models": {
+    "Custom CNN": {
+      "roc_auc": 0.9899613899613898,
+      "accuracy": 0.9637058261700095,
+      "precision": 0.9719029374201787,
+      "recall": 0.9794079794079794,
+      "f1_score": 0.9756410256410256,
+      "type": "deep_learning"
+    },
+    "VGG16 Transfer": {
+      "roc_auc": 0.9972067305400638,
+      "accuracy": 0.9789875835721108,
+      "precision": 0.9934640522875817,
+      "recall": 0.9781209781209781,
+      "f1_score": 0.9857328145265889,
+      "type": "deep_learning"
+    },
+    "ResNet50 Transfer": {
+      "roc_auc": 0.9966537966537966,
+      "accuracy": 0.9694364851957975,
+      "precision": 0.9907773386034255,
+      "recall": 0.9678249678249679,
+      "f1_score": 0.9791666666666666,
+      "type": "deep_learning"
+    },
+    "Gradient Boosting": {
+      "roc_auc": 0.985070785070785,
+      "accuracy": 0.9465138490926457,
+      "precision": 0.9546027742749055,
+      "recall": 0.9742599742599742,
+      "f1_score": 0.9643312101910828,
+      "type": "baseline"
+    },
+    "Random Forest": {
+      "roc_auc": 0.9748129081462414,
+      "accuracy": 0.772683858643744,
+      "precision": 0.7660414610069102,
+      "recall": 0.9987129987129987,
+      "f1_score": 0.8670391061452514,
+      "type": "baseline"
+    },
+    "Svm Rbf": {
+      "roc_auc": 0.9879379379379379,
+      "accuracy": 0.9455587392550143,
+      "precision": 0.9455445544554455,
+      "recall": 0.9832689832689833,
+      "f1_score": 0.9640378548895899,
+      "type": "baseline"
+    },
+    "Logistic Regression": {
+      "roc_auc": 0.9774155107488441,
+      "accuracy": 0.938872970391595,
+      "precision": 0.9696969696969697,
+      "recall": 0.9472329472329473,
+      "f1_score": 0.9583333333333334,
+      "type": "baseline"
+    }
+  },
+  "normalization": {
+    "mean": 0.4820609335140306,
+    "std": 0.23645055284520775,
+    "target_size": [
+      224,
+      224
+    ]
+  }
+}

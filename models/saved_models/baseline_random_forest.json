@@ -1,0 +1,11 @@
+{
+    "model_name": "Random Forest",
+    "model_type": "RandomForestClassifier",
+    "train_test_roc_auc": 0.9748129081462414,
+    "train_test_f1": 0.8670391061452514,
+    "cv_roc_auc_mean": 0.9677657940259181,
+    "cv_roc_auc_std": 0.002722368452648996,
+    "training_samples": 4185,
+    "n_features": 791,
+    "is_best_model": false
+}

@@ -1,0 +1,11 @@
+{
+    "model_name": "Gradient Boosting",
+    "model_type": "GradientBoostingClassifier",
+    "train_test_roc_auc": 0.985070785070785,
+    "train_test_f1": 0.9643312101910828,
+    "cv_roc_auc_mean": 0.9827963254922274,
+    "cv_roc_auc_std": 0.002888377999432559,
+    "training_samples": 4185,
+    "n_features": 791,
+    "is_best_model": false
+}

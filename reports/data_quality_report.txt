@@ -1,0 +1,66 @@
+================================================================================
+ZOIDBERG2.0 - DATA QUALITY REPORT
+================================================================================
+Generated: 2026-01-24 19:34:57
+
+OVERALL SUMMARY
+--------------------------------------------------------------------------------
+Total Images Across All Datasets: 5856
+Total Corrupted Images (in samples): 0
+
+
+DATASET1
+--------------------------------------------------------------------------------
+Path: C:\Users\Hw\Desktop\EPITECH\T-DEV-810 -Zoidberg2.0-PAR_19\data\raw\dataset1
+Total Images: 5216
+Number of Classes: 2
+
+Class Distribution:
+  • NORMAL: 1341 (25.7%)
+  • PNEUMONIA: 3875 (74.3%)
+
+Integrity Check (sample of 100):
+  • Corrupted: 0
+  • Color Modes: L, RGB
+  • Dimension Range: 580x294 to 2088x1840
+
+DATASET2
+--------------------------------------------------------------------------------
+Path: C:\Users\Hw\Desktop\EPITECH\T-DEV-810 -Zoidberg2.0-PAR_19\data\raw\dataset2
+Total Images: 16
+Number of Classes: 2
+
+Class Distribution:
+  • NORMAL: 8 (50.0%)
+  • PNEUMONIA: 8 (50.0%)
+
+Integrity Check (sample of 16):
+  • Corrupted: 0
+  • Color Modes: L
+  • Dimension Range: 968x592 to 1776x1416
+
+DATASET3_TUNING
+--------------------------------------------------------------------------------
+Path: C:\Users\Hw\Desktop\EPITECH\T-DEV-810 -Zoidberg2.0-PAR_19\data\raw\dataset3_tuning
+Total Images: 624
+Number of Classes: 2
+
+Class Distribution:
+  • NORMAL: 234 (37.5%)
+  • PNEUMONIA: 390 (62.5%)
+
+Integrity Check (sample of 100):
+  • Corrupted: 0
+  • Color Modes: L
+  • Dimension Range: 744x424 to 2366x2152
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+✓ Datasets detected. Proceeding with analysis...
+⚠️  dataset1: Class imbalance detected (ratio 2.89:1)
+   Consider using class weighting or resampling techniques.
+
+✓ Ready to proceed to Step 2: Preprocessing & Feature Engineering
+
+================================================================================

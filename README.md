@@ -1,211 +1,476 @@
-# CloudOpt AI
+# ZOIDBERG2.0
 
-**Production-ready cloud infrastructure optimization platform powered by AI**
+**Medical Imaging / Computer Aided Diagnosis - Pneumonia Detection**
 
-[![CI](https://github.com/cloudopt-ai/cloudopt-ai/workflows/CI/badge.svg)](https://github.com/cloudopt-ai/cloudopt-ai/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-
-## 🚀 Overview
-
-CloudOpt AI is an intelligent cloud infrastructure optimization platform that automatically discovers, analyzes, and optimizes multi-cloud deployments. It provides:
-
-- **Auto-Discovery**: Automatic infrastructure scanning across AWS, Azure, and GCP
-- **AI-Powered Recommendations**: Multi-objective optimization (cost, performance, CO2) using NSGA-II
-- **One-Click Deployment**: Generate and deploy validated Terraform/Pulumi code
-- **Real-Time Monitoring**: Comprehensive observability with Prometheus, Grafana, and OpenTelemetry
-- **Data-Driven Insights**: Pricing catalogs, performance metrics, and predictive analytics
-
-## 📁 Repository Structure
-
-```
-cloudopt-ai/
-├── .github/              # GitHub workflows, issue templates, PR templates
-├── services/             # Backend microservices
-│   ├── api/             # FastAPI REST API gateway
-│   ├── ai-engine/       # ML models, optimizer, training pipelines
-│   └── data/            # Scrapers, ETL, connectors, migrations
-├── web/                  # Frontend applications
-│   └── dashboard/       # React + TypeScript SPA
-├── infra/                # Infrastructure as Code
-│   ├── terraform-modules/  # Reusable Terraform modules
-│   ├── k8s/               # Kubernetes manifests and Helm charts
-│   └── live/              # Environment-specific IaC
-├── ci/                   # CI/CD scripts and security scanning
-├── docs/                 # Architecture, runbooks, ADRs
-├── dev/                  # Local development (docker-compose)
-├── scripts/              # Utility scripts for development
-├── examples/             # Sample payloads and use cases
-└── templates/            # IaC templates (Terraform, Pulumi, CF)
-```
-
-## 🛠️ Quick Start
-
-### Prerequisites
-
-- Docker & Docker Compose
-- Python 3.11+
-- Node.js 18+
-- Terraform 1.6+
-- Make
-
-### Local Development Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/cloudopt-ai/cloudopt-ai.git
-cd cloudopt-ai
-
-# Install pre-commit hooks
-make setup-dev
-
-# Start all services locally
-make dev-up
-
-# Run tests
-make test
-
-# Access services
-# - API: http://localhost:8000/docs
-# - Dashboard: http://localhost:3000
-# - MLflow: http://localhost:5000
-# - Grafana: http://localhost:3001
-```
-
-## 📦 Services
-
-### API Service (`services/api/`)
-FastAPI-based REST API providing endpoints for recommendations, simulations, and deployments.
-
-**Key Endpoints:**
-- `POST /api/v1/discover` - Trigger infrastructure discovery
-- `POST /api/v1/recommend` - Get optimization recommendations
-- `POST /api/v1/simulate` - Run what-if scenarios
-- `POST /api/v1/deploy` - Deploy optimized infrastructure
-
-### AI Engine (`services/ai-engine/`)
-Machine learning models and multi-objective optimizer for infrastructure recommendations.
-
-**Features:**
-- NSGA-II multi-objective optimization
-- Cost, performance, and CO2 prediction models
-- SHAP explainability integration
-- MLflow experiment tracking
-
-### Data Service (`services/data/`)
-Data ingestion, ETL pipelines, and pricing catalog management.
-
-**Components:**
-- Cloud provider price scrapers
-- Observability connectors (CloudWatch, Prometheus, Datadog)
-- Airflow DAG orchestration
-- Data quality validation (Great Expectations)
-
-### Dashboard (`web/dashboard/`)
-React + TypeScript SPA for visualization and interaction.
-
-**Features:**
-- Infrastructure topology viewer
-- Recommendation comparison UI
-- Deployment workflow
-- Real-time monitoring dashboards
-
-## 🏗️ Infrastructure
-
-### Terraform Modules (`infra/terraform-modules/`)
-Reusable, tested Terraform modules:
-- `network/` - VPC, subnets, security groups
-- `compute/` - EC2, ECS, Lambda
-- `db/` - RDS, DynamoDB, Aurora
-- `iam/` - Roles, policies, service accounts
-- `monitoring/` - CloudWatch, Prometheus, Grafana
-
-### Kubernetes (`infra/k8s/`)
-- Helm charts for each service
-- Namespace configurations
-- Service meshes (Istio/Linkerd)
-- Chaos engineering (Chaos Mesh)
-- GitOps with ArgoCD
-
-## 🧪 Testing Strategy
-
-- **Unit Tests**: pytest (Python), Jest (TypeScript)
-- **Integration Tests**: testcontainers, docker-compose
-- **IaC Tests**: Terratest, checkov, tfsec
-- **E2E Tests**: Playwright
-- **Security Scans**: Trivy, Snyk, Gitleaks
-
-```bash
-# Run all tests
-make test
-
-# Run specific test suites
-make test-api
-make test-ai-engine
-make test-web
-make test-infra
-```
-
-## 🔒 Security
-
-- No secrets in repository (use `.env` templates)
-- Secret management with AWS Secrets Manager / HashiCorp Vault
-- Pre-commit hooks for secret scanning (gitleaks)
-- Security scanning in CI (Trivy, Snyk)
-- IaC security policies (checkov, tfsec)
-
-See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
-
-## 📊 Observability
-
-- **Metrics**: Prometheus + Grafana
-- **Traces**: OpenTelemetry + Jaeger
-- **Logs**: Loki + FluentBit
-- **Dashboards**: Pre-configured Grafana dashboards in `infra/monitoring/`
-
-## 🤝 Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes with tests
-4. Run pre-commit checks (`pre-commit run --all-files`)
-5. Commit using conventional commits (`git commit -m 'feat: add amazing feature'`)
-6. Push and create a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
-
-## 📚 Documentation
-
-- [Architecture Overview](docs/architecture.md)
-- [API Documentation](services/api/README.md)
-- [Deployment Guide](docs/runbooks/deployment.md)
-- [Onboarding Guide](docs/onboarding.md)
-- [Decision Records](docs/decision-records/)
-
-## 🆘 Support
-
-- 📧 Email: rayan.habes@epitech.eu
-- 💬 Slack: [Join our community](#)
-- 🐛 Issues: [GitHub Issues](https://github.com/cloudopt-ai/cloudopt-ai/issues)
-
-## 🗺️ Roadmap
-
-- [x] Auto-discovery for AWS, Azure, GCP
-- [x] Multi-objective optimization engine
-- [x] Terraform code generation
-- [ ] Pulumi support
-- [ ] CloudFormation support
-- [ ] FinOps integration
-- [ ] Carbon footprint tracking
-- [ ] Multi-region optimization
-- [ ] Cost anomaly detection
-- [ ] Automated remediation
+[![Python Version](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)](.)
 
 ---
 
-**Built with ❤️ by the CloudOpt AI team**
+## 📋 Project Overview
+
+ZOIDBERG2.0 is an enterprise-grade Machine Learning pipeline for detecting Pneumonia from chest X-ray images. This project implements a rigorous, reproducible approach to medical image classification using multiple datasets and advanced ML techniques.
+
+### Key Features
+
+- ✅ **Multi-Dataset Architecture**: Uses 3 separate datasets with dedicated hyperparameter tuning set
+- ✅ **Comprehensive Validation**: Compares Cross-Validation vs Train-Test Split strategies
+- ✅ **Advanced Feature Engineering**: Implements PCA for dimensionality reduction
+- ✅ **Multiple Algorithms**: Baseline models (SVM, Logistic Regression) and Deep Learning (CNNs)
+- ✅ **Proper Evaluation**: ROC-AUC as primary metric, avoiding accuracy pitfalls
+- ✅ **Model Persistence**: Save/load trained models for reproducibility
+- ✅ **Bonus Features**: 3-class prediction, Self-Organizing Maps (SOM) visualization
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.9+ (tested on 3.13)
+- Windows/Linux/macOS
+- 8GB+ RAM recommended
+- 5GB free disk space
+
+### Installation & Setup
+
+**Option 1: Automated Setup (Recommended)**
+```batch
+# Run the setup script
+setup.bat
+```
+
+**Option 2: Manual Setup**
+```batch
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+.venv\Scripts\activate   # Windows
+source .venv/bin/activate  # Linux/macOS
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Running the Project
+
+**Start Jupyter Notebook Interface:**
+```batch
+run.bat
+```
+
+**Run Specific Notebook:**
+```batch
+run_notebook.bat 1  # Step 1: Data Analysis
+run_notebook.bat 2  # Step 2: Preprocessing
+```
+
+**Manual Execution:**
+```batch
+# Activate environment
+.venv\Scripts\activate
+
+# Start Jupyter
+jupyter notebook
+```
+
+---
+
+## 🗂️ Project Structure
+
+```
+ZOIDBERG2.0/
+│
+├── config/
+│   └── config.yaml              # Centralized configuration
+│
+├── data/
+│   ├── raw/
+│   │   ├── dataset1/            # Training dataset 1
+│   │   ├── dataset2/            # Training dataset 2
+│   │   └── dataset3_tuning/     # Reserved for hyperparameter tuning
+│   ├── interim/                 # Intermediate processed data
+│   └── processed/               # Final processed data
+│
+├── notebooks/
+│   ├── 01_Data_Analysis_Integrity_Check.ipynb
+│   ├── 02_Preprocessing_FeatureEngineering.ipynb
+│   ├── 03_Baseline_Modeling.ipynb
+│   ├── 04_Deep_Learning_CNN.ipynb
+│   ├── 05_Evaluation_ROC_AUC.ipynb
+│   └── 06_Visualization_SOM.ipynb
+│
+├── src/
+│   ├── data/
+│   │   ├── data_loader.py       # Dataset loading utilities
+│   │   └── data_validator.py    # Data integrity checks
+│   ├── features/
+│   │   ├── preprocessing.py     # Image preprocessing
+│   │   └── feature_extraction.py # PCA and feature engineering
+│   ├── models/
+│   │   ├── baseline_models.py   # Traditional ML models
+│   │   ├── deep_learning.py     # CNN architectures
+│   │   └── model_selection.py   # Hyperparameter tuning
+│   ├── visualization/
+│   │   ├── plots.py             # Plotting utilities
+│   │   └── som_viz.py           # Self-Organizing Map visualization
+│   └── utils/
+│       └── helpers.py           # General utilities
+│
+├── models/
+│   ├── saved_models/            # Trained models (.pkl, .h5)
+│   └── checkpoints/             # Training checkpoints
+│
+├── reports/
+│   ├── figures/                 # Generated plots and visualizations
+│   ├── metrics/                 # Evaluation metrics
+│   └── final_report.pdf         # Final synthesis document
+│
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
+
+---
+
+## 📚 Development Roadmap
+
+### Step 1: Data Analysis & Integrity Check ✅ COMPLETE
+**Notebook**: `01_Data_Analysis_Integrity_Check.ipynb`
+
+**Objectives**:
+- Load and inspect the 3 datasets
+- Perform data integrity checks (corrupted images, format validation)
+- Exploratory Data Analysis (EDA): class distribution, image dimensions, pixel statistics
+- Dataset comparison and quality report generation
+
+**Deliverables**:
+- ✓ Data quality report (5,856 total images analyzed)
+- ✓ Class distribution visualizations (2.89:1 imbalance ratio)
+- ✓ Sample image visualizations (0 corrupted images found)
+
+**Status**: Completed and validated
+
+---
+
+### Step 2: Preprocessing & Feature Engineering ✅ COMPLETE
+**Notebook**: `02_Preprocessing_FeatureEngineering.ipynb`
+
+**Objectives**:
+- Implement image preprocessing pipeline (resizing, normalization)
+- Data augmentation strategy
+- Feature extraction from images
+- PCA implementation for dimensionality reduction
+- Setup train-test split and cross-validation folds
+
+**Deliverables**:
+- ✓ Preprocessed datasets ready for modeling (224x224 grayscale)
+- ✓ PCA-transformed features (95% variance retained)
+- ✓ Train-test split (80/20 stratified)
+- ✓ 5-fold cross-validation setup
+
+**Status**: Completed and ready for modeling
+
+---
+
+### Step 3: Baseline Modeling & Cross-Validation
+**Notebook**: `03_Baseline_Modeling.ipynb`
+
+**Objectives**:
+- Implement baseline models (Logistic Regression, SVM, Random Forest, Gradient Boosting)
+- Compare train-test split vs cross-validation results
+- Initial model evaluation using ROC-AUC
+- Feature importance analysis
+
+**Deliverables**:
+- Trained baseline models
+- Performance comparison report
+- Model persistence (saved models)
+
+---
+
+### Step 4: Deep Learning Implementation
+**Notebook**: `04_Deep_Learning_CNN.ipynb`
+
+**Objectives**:
+- Implement CNN architecture (custom and pre-trained: VGG16, ResNet)
+- Train deep learning models
+- Hyperparameter tuning using Dataset3
+- Implement 3-class classification (NORMAL, VIRUS, BACTERIA) - **Bonus**
+
+**Deliverables**:
+- Trained CNN models
+- Training history plots
+- Best model selection
+
+---
+
+### Step 5: Evaluation & ROC-AUC Analysis
+**Notebook**: `05_Evaluation_ROC_AUC.ipynb`
+
+**Objectives**:
+- Comprehensive model evaluation using ROC-AUC
+- Explain advantages of ROC-AUC over accuracy
+- Generate ROC curves, confusion matrices
+- Compare all models (baseline vs deep learning)
+- Final model selection
+
+**Deliverables**:
+- ROC curves for all models
+- Confusion matrices
+- Comprehensive evaluation report
+
+---
+
+### Step 6: Visualization & SOM
+**Notebook**: `06_Visualization_SOM.ipynb`
+
+**Objectives**:
+- Implement Self-Organizing Map (SOM) for feature visualization - **Bonus**
+- Visualize learned representations
+- Generate final visualizations for report
+- Create synthesis document
+
+**Deliverables**:
+- SOM visualizations
+- Final project report (PDF)
+
+------
+
+## 📊 Current Progress
+
+| Step | Status | Notebook | Description |
+|------|--------|----------|-------------|
+| 1 | ✅ | Data Analysis | Dataset validation, EDA, quality report |
+| 2 | ✅ | Preprocessing | Image preprocessing, PCA, train-test splits |
+| 3 | ⏳ | Baseline Models | Traditional ML algorithms |
+| 4 | ⏳ | Deep Learning | CNN implementation |
+| 5 | ⏳ | Evaluation | ROC-AUC analysis |
+| 6 | ⏳ | SOM Visualization | Bonus feature visualization |
+
+---
+
+## 💻 Scripts & Usage
+
+### Available Scripts
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `setup.bat` | Initial setup & install dependencies | `setup.bat` |
+| `run.bat` | Start Jupyter Notebook interface | `run.bat` |
+| `run_notebook.bat` | Run specific notebook | `run_notebook.bat [1-2]` |
+
+### Usage Examples
+
+```batch
+# First time setup
+setup.bat
+
+# Start project (opens Jupyter interface)
+run.bat
+
+# Run specific notebook
+run_notebook.bat 1  # Data Analysis
+run_notebook.bat 2  # Preprocessing
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.9+ (tested on Python 3.13)
+- pip package manager
+- 8GB+ RAM recommended
+- (Optional) GPU for deep learning training
+
+### Installation
+
+1. **Navigate to project directory**:
+```bash
+cd "T-DEV-810 -Zoidberg2.0-PAR_19"
+```
+
+2. **Run automated setup**:
+```bash
+setup.bat
+```
+
+OR **Manual setup**:
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate (Windows)
+.venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+3. **Dataset already configured**:
+- ✓ Datasets already in place:
+  - `data/raw/dataset1/` (5,216 images)
+  - `data/raw/dataset2/` (16 images)
+  - `data/raw/dataset3_tuning/` (624 images)
+
+### Configuration
+
+Edit `config/config.yaml` to customize:
+- Image processing parameters
+- Model hyperparameters
+- Training configuration
+- File paths
+
+---
+
+## 📊 Usage
+
+### Running Notebooks
+
+Start with the first notebook and progress sequentially:
+
+```bash
+jupyter notebook notebooks/01_Data_Analysis_Integrity_Check.ipynb
+```
+
+Each notebook is self-contained and includes:
+- Clear objectives
+- Detailed explanations
+- Executable code cells
+- Visualizations
+- Next steps
+
+### Using Python Modules
+
+You can also use the source modules directly:
+
+```python
+from src.data import DatasetLoader
+from src.utils import set_seed
+
+# Set reproducibility
+set_seed(42)
+
+# Load dataset
+loader = DatasetLoader('config/config.yaml')
+images, labels, class_names = loader.load_dataset('dataset1')
+```
+
+---
+
+## 🎯 Key Design Decisions
+
+### 1. Dataset Strategy
+- **Dataset 1 & 2**: Used for training and validation
+- **Dataset 3**: Reserved exclusively for hyperparameter tuning
+- This prevents data leakage and ensures unbiased model selection
+
+### 2. Evaluation Metric: ROC-AUC
+**Why ROC-AUC over Accuracy?**
+- Medical datasets are often imbalanced
+- ROC-AUC is threshold-independent
+- Provides insight into model's discriminative ability
+- Better for comparing models in clinical settings
+
+### 3. Cross-Validation vs Train-Test Split
+- **Cross-Validation**: Better estimates of model performance, uses all data
+- **Train-Test Split**: Faster, simpler, closer to production scenario
+- We compare both to understand bias-variance tradeoffs
+
+### 4. PCA Implementation
+- Reduces dimensionality and computational cost
+- Helps prevent overfitting
+- Visualizes most important feature directions
+
+---
+
+## 📈 Model Persistence
+
+All trained models are saved for reproducibility:
+
+```python
+from src.utils import save_model, load_model
+
+# Save model
+save_model(model, 'models/saved_models/cnn_model.pkl', 
+          metadata={'accuracy': 0.95, 'roc_auc': 0.97})
+
+# Load model
+model, metadata = load_model('models/saved_models/cnn_model.pkl')
+```
+
+---
+
+## 🔬 Research & Medical Context
+
+**Pneumonia Detection**: Pneumonia is a serious lung infection that requires timely diagnosis. Chest X-rays are the primary diagnostic tool, but interpretation can be challenging and time-consuming. This project aims to assist radiologists with AI-powered screening.
+
+**Clinical Relevance**:
+- Early detection improves patient outcomes
+- Reduces diagnostic time and workload
+- Provides second opinion for challenging cases
+- Can distinguish between viral and bacterial pneumonia (3-class model)
+
+---
+
+## 📝 Deliverables Checklist
+
+- [x] ✓ Modular project structure
+- [x] ✓ Configuration management
+- [x] ✓ Data integrity checks
+- [ ] Cross-validation implementation
+- [ ] Baseline model comparison
+- [ ] PCA feature reduction
+- [ ] Deep learning models
+- [ ] ROC-AUC evaluation
+- [ ] Model persistence
+- [ ] 3-class classification (Bonus)
+- [ ] SOM visualization (Bonus)
+- [ ] Final PDF report
+
+---
+
+## 🤝 Contributing
+
+This project follows industry best practices:
+- **Code Style**: PEP 8
+- **Documentation**: Comprehensive docstrings
+- **Version Control**: Git with meaningful commits
+- **Reproducibility**: Random seeds and saved models
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+## 👥 Authors
+
+**ML Architecture Team**  
+EPITECH - T-DEV-810  
+Medical Imaging / Computer Aided Diagnosis
+
+---
+
+## 🙏 Acknowledgments
+
+- Medical imaging datasets providers
+- Open-source ML community
+- Scikit-learn, TensorFlow, and PyTorch teams
+
+---
+
+## 📧 Contact
+
+For questions or collaboration:
+- Project Repository: ZOIDBERG2.0
+- Email: [Your email]
+
+---
+
+**Note**: This project is for educational and research purposes. Any clinical application requires rigorous validation and regulatory approval.

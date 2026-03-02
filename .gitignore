@@ -138,6 +138,9 @@ models/artifacts/
 grafana/data/
 prometheus/data/
 
+# datasets
+data/*
+
 # Local development
 .local/
 tmp/

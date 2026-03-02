@@ -1,0 +1,30 @@
+{
+    "model": "VGG16 Transfer",
+    "category": "Deep Learning",
+    "interpretation_date": "2026-01-25",
+    "trust_score": {
+        "overall": 0.9123232090734478,
+        "components": {
+            "performance": 0.9972162638829305,
+            "confidence_reliability": 0.85,
+            "error_pattern": 0.9789875835721108,
+            "interpretability": 0.75,
+            "clinical_validity": 0.85
+        },
+        "weights": {
+            "performance": 0.35,
+            "confidence_reliability": 0.2,
+            "error_pattern": 0.2,
+            "interpretability": 0.15,
+            "clinical_validity": 0.1
+        }
+    },
+    "recommendations": [
+        "Implement confidence thresholding for uncertain cases",
+        "Maintain human-in-the-loop for final diagnosis",
+        "Deploy with continuous performance monitoring",
+        "Regular retraining with new clinical data",
+        "Establish feedback loop with radiologists"
+    ],
+    "clinical_deployment_readiness": "READY"
+}

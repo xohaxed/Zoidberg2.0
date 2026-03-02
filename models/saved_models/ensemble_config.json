@@ -1,0 +1,34 @@
+{
+  "ensemble_type": "weighted_soft_voting",
+  "models": [
+    "Custom CNN",
+    "VGG16 Transfer",
+    "ResNet50 Transfer",
+    "Gradient Boosting",
+    "Random Forest",
+    "Svm Rbf",
+    "Logistic Regression"
+  ],
+  "weights": [
+    0.9374326707660041,
+    0.9660469993803327,
+    0.8981386148052815,
+    0.985070785070785,
+    0.9748129081462414,
+    0.9879379379379379,
+    0.9774155107488441
+  ],
+  "performance": {
+    "roc_auc": 0.9933981600648267,
+    "accuracy": 0.8299904489016237,
+    "precision": 0.8136125654450261,
+    "recall": 1.0,
+    "f1_score": 0.8972286374133949
+  },
+  "optimal_thresholds": {
+    "balanced": 0.8181818181818182,
+    "high_sensitivity": 0.6060606060606061,
+    "high_specificity": 0.6767676767676768
+  },
+  "recommendation": "Ensemble (Weighted Soft Voting)"
+}

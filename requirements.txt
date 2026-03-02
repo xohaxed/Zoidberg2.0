@@ -1,0 +1,64 @@
+# Core Data Science Libraries (Python 3.13 compatible)
+numpy>=2.0.0,<2.4.0  # Version constraint for numba compatibility
+pandas>=2.1.0
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# Deep Learning (Note: TensorFlow 2.16+ needed for Python 3.12+, but may not work on 3.13 yet)
+# tensorflow>=2.16.0  # Uncomment if using Python 3.11 or 3.12
+# keras>=3.0.0
+torch>=2.1.0
+torchvision>=0.16.0
+
+# Computer Vision
+opencv-python>=4.8.0
+Pillow>=10.0.0
+scikit-image>=0.22.0
+
+# Model Interpretability & Explainability
+grad-cam>=1.5.0  # Gradient-weighted Class Activation Mapping
+shap>=0.50.0  # SHAP values for model interpretation
+numba>=0.63.0  # JIT compiler (required by SHAP)
+llvmlite>=0.46.0  # LLVM bindings (required by numba)
+cloudpickle>=3.0.0  # Extended pickling support
+slicer>=0.0.8  # Array slicing utilities
+
+# Visualization
+matplotlib>=3.8.0
+seaborn>=0.13.0
+plotly>=5.18.0
+
+# Dashboard & Web Interface
+streamlit>=1.30.0
+streamlit-option-menu>=0.3.12
+
+# Self-Organizing Maps
+minisom>=2.3.0
+
+# Model Management & Experiment Tracking
+joblib>=1.3.0
+
+# Notebook & Reports
+jupyter>=1.0.0
+ipywidgets>=8.1.0
+notebook>=7.0.0
+
+# Data Validation & Quality
+imbalanced-learn>=0.11.0
+
+# Utilities
+tqdm>=4.66.0
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# Medical Imaging (Optional - if working with DICOM)
+# pydicom>=2.4.0
+
+# ==============================================================================
+# INSTALLATION NOTES FOR TEAM MEMBERS:
+# ==============================================================================
+# 1. Run ./run.bat (Windows) or ./setup.sh (Linux/Mac) to install all dependencies
+# 2. NumPy version is constrained to <2.4.0 for numba compatibility
+# 3. All model interpretation packages (grad-cam, shap) are included
+# 4. Compatible with Python 3.13
+# ==============================================================================

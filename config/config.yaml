@@ -1,0 +1,138 @@
+# ZOIDBERG2.0 Configuration File
+# Medical Imaging - Pneumonia Detection Pipeline
+
+# Project Metadata
+project:
+  name: "ZOIDBERG2.0"
+  version: "2.0.0"
+  description: "Medical Imaging / Computer Aided Diagnosis - Pneumonia Detection"
+  authors: ["ML Architecture Team"]
+
+# Data Paths
+paths:
+  data_raw: "data/raw"
+  dataset1: "data/raw/dataset1"
+  dataset2: "data/raw/dataset2"
+  dataset3_tuning: "data/raw/dataset3_tuning"  # Reserved for hyperparameter optimization
+  data_interim: "data/interim"
+  data_processed: "data/processed"
+  models: "models/saved_models"
+  checkpoints: "models/checkpoints"
+  reports: "reports"
+  figures: "reports/figures"
+  metrics: "reports/metrics"
+
+# Image Processing
+image:
+  target_size: [224, 224]
+  color_mode: "grayscale"  # or "rgb" for 3-channel
+  normalization: "standard"  # standard, minmax, or none
+  augmentation:
+    enabled: true
+    rotation_range: 15
+    width_shift_range: 0.1
+    height_shift_range: 0.1
+    zoom_range: 0.1
+    horizontal_flip: true
+
+# Dataset Strategy
+data_strategy:
+  train_test_split_ratio: 0.8
+  validation_split: 0.25  # Increased from 0.2 to 0.25 for more stable validation
+  cv_folds: 5
+  stratified: true
+  random_state: 42
+  
+# Classification Task
+classification:
+  task: "binary"  # binary or multiclass
+  classes:
+    binary: ["NORMAL", "PNEUMONIA"]
+    multiclass: ["NORMAL", "VIRUS", "BACTERIA"]
+  balance_classes: true
+
+# Feature Engineering
+features:
+  pca:
+    enabled: true
+    n_components: 0.95  # Retain 95% variance
+    whiten: true
+  
+# Model Configuration
+models:
+  baseline:
+    - "LogisticRegression"
+    - "SVM"
+    - "RandomForest"
+    - "GradientBoosting"
+  
+  deep_learning:
+    architecture: "CNN"
+    pretrained: "VGG16"  # VGG16, ResNet50, InceptionV3
+    fine_tune: true
+    
+  hyperparameter_tuning:
+    method: "GridSearchCV"  # GridSearchCV or RandomizedSearchCV
+    cv: 3
+    scoring: "roc_auc"
+    n_jobs: -1
+
+# Training Configuration
+training:
+  epochs: 50
+  batch_size: 32
+  early_stopping:
+    enabled: true
+    patience: 7  # Reduced from 10 for faster convergence
+    monitor: "val_loss"
+  learning_rate: 0.0003  # Reduced from 0.001 for stability
+  optimizer: "adamw"  # Changed to AdamW for better regularization
+  gradient_clip: 1.0  # Added gradient clipping
+  warmup_epochs: 3  # Added learning rate warmup
+
+# Deep Learning Configuration
+deep_learning:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 0.0003  # Reduced from 0.001
+  optimizer: "adamw"  # Changed to AdamW
+  early_stopping_patience: 7  # Reduced from 10
+  weight_decay: 0.0001
+  gradient_clip: 1.0  # Added
+  warmup_epochs: 3  # Added
+
+# Evaluation Metrics
+evaluation:
+  primary_metric: "roc_auc"
+  additional_metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "confusion_matrix"
+  
+  visualization:
+    roc_curve: true
+    confusion_matrix: true
+    feature_importance: true
+    som_enabled: true  # Self-Organizing Map visualization
+    
+# SOM Configuration
+som:
+  grid_size: [10, 10]
+  sigma: 1.0
+  learning_rate: 0.5
+  iterations: 10000
+
+# Reproducibility
+reproducibility:
+  seed: 42
+  deterministic: true
+  save_models: true
+  model_format: "joblib"  # joblib or h5 for keras
+
+# Logging
+logging:
+  level: "INFO"
+  save_logs: true
+  log_file: "reports/pipeline.log"

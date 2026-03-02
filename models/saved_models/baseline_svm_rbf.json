@@ -1,0 +1,11 @@
+{
+    "model_name": "SVM (RBF)",
+    "model_type": "SVC",
+    "train_test_roc_auc": 0.9879379379379379,
+    "train_test_f1": 0.9640378548895899,
+    "cv_roc_auc_mean": 0.9912176448292775,
+    "cv_roc_auc_std": 0.00255018345435536,
+    "training_samples": 4185,
+    "n_features": 791,
+    "is_best_model": true
+}

@@ -1,0 +1,11 @@
+{
+    "model_name": "Logistic Regression",
+    "model_type": "LogisticRegression",
+    "train_test_roc_auc": 0.9774155107488441,
+    "train_test_f1": 0.9583333333333334,
+    "cv_roc_auc_mean": 0.9773503311205312,
+    "cv_roc_auc_std": 0.004170038923232681,
+    "training_samples": 4185,
+    "n_features": 791,
+    "is_best_model": false
+}
