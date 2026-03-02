@@ -1,1 +1,0 @@
-# Security policy as code

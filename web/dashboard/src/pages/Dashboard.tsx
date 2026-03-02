@@ -1,1 +1,0 @@
-// Dashboard page - infrastructure overview
