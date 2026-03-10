@@ -43,62 +43,62 @@ class DatasetLoader:
         }
     
     def get_image_paths_and_labels(
-        self, 
-        dataset_name: str,
-        multiclass: bool = False
-    ) -> Tuple[List[Path], List[str]]:
-        """
-        Get all image paths and their corresponding labels from a dataset.
-        
-        Args:
+    self, 
+    dataset_name: str,
+    multiclass: bool = False
+) -> Tuple[List[Path], List[str]]:
+     """
+     Get all image paths and their corresponding labels from a dataset.
+
+     Args:
             dataset_name (str): Name of dataset ('dataset1', 'dataset2', 'dataset3_tuning')
             multiclass (bool): If True, use multiclass labels (NORMAL, VIRUS, BACTERIA)
                               If False, use binary labels (NORMAL, PNEUMONIA)
-        
-        Returns:
+
+     Returns:
             Tuple[List[Path], List[str]]: Image paths and corresponding labels
         """
-        dataset_path = self.dataset_paths.get(dataset_name)
-        
-        if not dataset_path or not dataset_path.exists():
-            raise ValueError(f"Dataset {dataset_name} not found at {dataset_path}")
-        
-        image_paths = []
-        labels = []
-        
-        image_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff'}
-        
-        # Get class directories
-        class_dirs = [d for d in dataset_path.iterdir() if d.is_dir()]
-        
-        for class_dir in class_dirs:
-            class_name = class_dir.name.upper()
-            
-            # Get all images in this class
-            images = [f for f in class_dir.rglob('*') 
-                     if f.is_file() and f.suffix.lower() in image_extensions]
-            
-            for img_path in images:
-                image_paths.append(img_path)
-                
-                # Assign label based on classification task
-                if multiclass:
-                    # For 3-class: NORMAL, VIRUS, BACTERIA
-                    if 'VIRUS' in class_name or 'VIRAL' in class_name:
-                        labels.append('VIRUS')
-                    elif 'BACTERIA' in class_name or 'BACTERIAL' in class_name:
-                        labels.append('BACTERIA')
-                    else:
-                        labels.append('NORMAL')
-                else:
-                    # For binary: NORMAL vs PNEUMONIA
-                    if 'NORMAL' in class_name:
-                        labels.append('NORMAL')
-                    else:
-                        labels.append('PNEUMONIA')
-        
-        return image_paths, labels
+     dataset_path = self.dataset_paths.get(dataset_name)
     
+     if not dataset_path or not dataset_path.exists():
+         raise ValueError(f"Dataset {dataset_name} not found at {dataset_path}")
+    
+     image_paths = []
+     labels = []
+    
+     image_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff'}
+    
+     class_dirs = [d for d in dataset_path.iterdir() if d.is_dir()]
+    
+     for class_dir in class_dirs:
+        class_name = class_dir.name.upper()
+        
+        images = [f for f in class_dir.rglob('*') 
+                 if f.is_file() and f.suffix.lower() in image_extensions]
+        
+        for img_path in images:
+            filename = img_path.name.upper()
+            image_paths.append(img_path)
+            
+            if multiclass:
+                if 'NORMAL' in class_name:
+                    labels.append('NORMAL')
+                elif 'BACTERIA' in filename or 'BACTERIAL' in filename:
+                    labels.append('BACTERIA')
+                elif 'VIRUS' in filename or 'VIRAL' in filename:
+                    labels.append('VIRUS')
+                else:
+                    # Sécurité: on ignore les cas ambigus
+                    image_paths.pop()
+                    continue
+            else:
+                if 'NORMAL' in class_name:
+                    labels.append('NORMAL')
+                else:
+                    labels.append('PNEUMONIA')
+    
+     return image_paths, labels
+
     def load_image(
         self, 
         image_path: Path, 
