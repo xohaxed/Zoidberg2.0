@@ -400,24 +400,6 @@ model, metadata = load_model('models/saved_models/cnn_model.pkl')
 - Provides second opinion for challenging cases
 - Can distinguish between viral and bacterial pneumonia (3-class model)
 
----
-
-## 📝 Deliverables Checklist
-
-- [x] ✓ Modular project structure
-- [x] ✓ Configuration management
-- [x] ✓ Data integrity checks
-- [ ] Cross-validation implementation
-- [ ] Baseline model comparison
-- [ ] PCA feature reduction
-- [ ] Deep learning models
-- [ ] ROC-AUC evaluation
-- [ ] Model persistence
-- [ ] 3-class classification (Bonus)
-- [ ] SOM visualization (Bonus)
-- [ ] Final PDF report
-
----
 
 ## 🤝 Contributing
 
