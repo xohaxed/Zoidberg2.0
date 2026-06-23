@@ -236,20 +236,6 @@ ZOIDBERG2.0/
 - SOM visualizations
 - Final project report (PDF)
 
-------
-
-## 📊 Current Progress
-
-| Step | Status | Notebook | Description |
-|------|--------|----------|-------------|
-| 1 | ✅ | Data Analysis | Dataset validation, EDA, quality report |
-| 2 | ✅ | Preprocessing | Image preprocessing, PCA, train-test splits |
-| 3 | ⏳ | Baseline Models | Traditional ML algorithms |
-| 4 | ⏳ | Deep Learning | CNN implementation |
-| 5 | ⏳ | Evaluation | ROC-AUC analysis |
-| 6 | ⏳ | SOM Visualization | Bonus feature visualization |
-
----
 
 ## 💻 Scripts & Usage
 
